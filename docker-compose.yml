@@ -1,0 +1,102 @@
+version: '3.4'
+
+networks:
+  backend:
+
+services:
+
+#Customer Section Start..
+
+  customerdb:
+    container_name: customer_db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    hostname: customerdb
+    restart: unless-stopped
+    environment:
+      SA_PASSWORD: password@12345#
+      ACCEPT_EULA: Y
+    networks:
+     - backend
+    ports:
+     - "8001:1433"
+  customerwebapis:
+    image: ${DOCKER_REGISTRY-}customerwebapis
+    build:
+      context: .
+      dockerfile: CustomerWebApis/Dockerfile
+    ports:
+      - "8002:80"
+      - 8003:5153 
+    depends_on:
+      - customerdb
+    environment:
+      - DB_HOST=customerdb
+      - DB_NAME=dms_customer
+      - DB_SA_PASSWORD=password@12345#
+    networks:
+      - backend
+
+
+      #Customer Section End
+
+      # Product Section Start
+      
+  productdb:
+    container_name: product-db
+    image: mysql:8.1.0
+    volumes:
+        - /my/own/datadir:/var/lib/mysql
+    environment:
+      MYSQL_PASSWORD: password@12345#
+      MYSQL_ROOT_PASSWORD: password@12345#
+      
+    ports:
+     - 8004:3306
+    networks:
+      - backend
+
+  productwebapis:
+    container_name: product_apis
+    image: ${DOCKER_REGISTRY-}productwebapis
+    build:
+      context: .
+      dockerfile: ProductWebApis/Dockerfile
+    ports:
+     - 8005:80
+    depends_on:
+     - productdb
+    environment:
+      - DB_HOST=productdb
+      - DB_NAME=dms_product
+      - DB_SA_PASSWORD=password@12345#
+    networks:
+     - backend
+
+      # Product Section End 
+
+ # Order Section Start 
+  orderdb:
+    container_name: order_db
+    image: mongo
+    ports:
+      - 8006:27017
+    networks:
+     - backend   
+  
+  orderwebapis:
+    container_name: order-apis
+    image: ${DOCKER_REGISTRY-}orderwebapis
+    build:
+      context: .
+      dockerfile: OrderWebApis/Dockerfile
+    depends_on:
+      - orderdb
+    networks:
+     - backend
+    ports:
+     - 8007:80
+    environment:
+     - DB_HOST=orderdb
+     - DB_NAME=dms_order
+
+      # Order Section End 
