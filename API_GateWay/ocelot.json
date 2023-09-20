@@ -1,0 +1,87 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/Customer",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "customerwebapis",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Customer"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Customer{customerid}",
+      "UpstreamHttpMethod": [ "GET", "DELETE" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "customerwebapis",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Customer/{customerid}"
+    },
+
+    // Product Apis
+    {
+      "UpstreamPathTemplate": "/Product",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "productwebapis",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/Product"
+    },
+
+    {
+      "UpstreamPathTemplate": "/Product/{productid}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "productwebapis",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/Prodcut/{productid}"
+    },
+
+    //Order APIs
+
+    {
+      "UpstreamPathTemplate": "/Order",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orderwebapis",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/Order"
+    },
+
+    {
+      "UpstreamPathTemplate": "/Order/{orderId}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orderwebapis",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/Order/{orderId}"
+    }
+
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http//localhost:700"
+  }
+}

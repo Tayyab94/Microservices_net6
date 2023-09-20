@@ -24,9 +24,9 @@ services:
     build:
       context: .
       dockerfile: CustomerWebApis/Dockerfile
-    ports:
-      - "8002:80"
-      - 8003:5153 
+    # ports:
+    #   - "8002:80"
+    #   - 8003:5153 
     depends_on:
       - customerdb
     environment:
@@ -61,8 +61,8 @@ services:
     build:
       context: .
       dockerfile: ProductWebApis/Dockerfile
-    ports:
-     - 8005:80
+    # ports:
+    #  - 8005:80
     depends_on:
      - productdb
     environment:
@@ -93,10 +93,22 @@ services:
       - orderdb
     networks:
      - backend
-    ports:
-     - 8007:80
+    # ports:
+    #  - 8007:80
     environment:
      - DB_HOST=orderdb
      - DB_NAME=dms_order
 
       # Order Section End 
+
+  api_gateway:
+    container_name: api_gateway
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: .
+      dockerfile: API_GateWay/Dockerfile
+    ports:
+    - 7001:80
+    networks:
+     - backend
+

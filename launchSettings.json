@@ -6,7 +6,8 @@
       "serviceActions": {
         "customerwebapis": "StartDebugging",
         "productwebapis": "StartDebugging",
-        "orderwebapis": "StartDebugging"
+        "orderwebapis": "StartDebugging",
+        "api_gateway": "StartDebugging"
       }
     }
   }
